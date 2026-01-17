@@ -12,8 +12,12 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy the rest of the application
 COPY . .
 
+# Copy and set permissions for start script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
 # Expose port (Railway will set PORT env var)
 EXPOSE 8080
 
-# Start command
-CMD mkdocs serve -a 0.0.0.0:${PORT:-8080}
+# Start command - use startup script
+CMD ["/app/start.sh"]
